@@ -53,7 +53,7 @@ func (s *Server) CreateOrg(ctx context.Context, req *request.CreateOrg) (*respon
 		return nil, err
 	}
 
-	org, err := s.service.Storage.StoreOrg(ctx, req.Name, req.AdminUser, secretID.GetId(), req.ServerId)
+	org, err := s.service.Storage.StoreOrg(ctx, req.Name, req.AdminUser, secretID.GetId(), req.ServerId, req.Projects)
 	if err != nil {
 		return nil, service.ParseStorageError(err, req.Name, "org")
 	}
@@ -219,7 +219,7 @@ func (s *Server) UpdateOrg(ctx context.Context, req *request.UpdateOrg) (*respon
 	rawAdminKey := req.AdminKey
 
 	newSecret := &secrets.Secret{
-		Id: secret.GetId(),
+		Id:   secret.GetId(),
 		Name: "infra-proxy-service-admin-key",
 		Type: "ssh",
 		Data: []*secrets.Kv{
@@ -256,7 +256,6 @@ func (s *Server) UpdateOrg(ctx context.Context, req *request.UpdateOrg) (*respon
 		},
 	}, nil
 }
-
 
 func (s *Server) GetAdminKeyFromSecretService(ctx context.Context, id string, secretsClient secrets.SecretsServiceClient) (*secrets.Secret, error) {
 	secret, err := secretsClient.Read(ctx, &secrets.Id{Id: id})

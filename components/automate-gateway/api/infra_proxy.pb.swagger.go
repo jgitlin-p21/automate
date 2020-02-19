@@ -489,6 +489,12 @@ func init() {
         },
         "server_id": {
           "type": "string"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -526,6 +532,12 @@ func init() {
         },
         "server_id": {
           "type": "string"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -841,6 +853,12 @@ func init() {
         },
         "server_id": {
           "type": "string"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
