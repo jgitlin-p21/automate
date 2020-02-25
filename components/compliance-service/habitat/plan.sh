@@ -29,7 +29,7 @@ pkg_binds_optional=(
   [authn-service]="port"
   [notifications-service]="port"
 )
-inspec_release="chef/inspec/4.18.51/20191211220937"
+inspec_release="chef/inspec/4.18.97/20200224232118"
 pkg_deps=(
   core/bash
   core/grpcurl              # Used in habitat/hooks/health_check
