@@ -122,8 +122,16 @@ export class LayoutSidebarService implements OnInit, OnDestroy {
         }],
         settings: [
           {
-            name: 'Node Management',
+            name: 'General Settings',
             items: [
+              {
+                name: 'Data Lifecycle',
+                icon: 'storage',
+                route: '/settings/node-lifecycle',
+                authorized: {
+                  anyOf: ['/retention/nodes/status', 'get']
+                }
+              },
               {
                 name: 'Notifications',
                 icon: 'notifications',
@@ -131,7 +139,12 @@ export class LayoutSidebarService implements OnInit, OnDestroy {
                 authorized: {
                   anyOf: ['/notifications/rules', 'get']
                 }
-              },
+              }
+            ]
+          },
+          {
+            name: 'Node Management',
+            items: [
               {
                 name: 'Data Feeds',
                 icon: 'assignment',
@@ -156,14 +169,6 @@ export class LayoutSidebarService implements OnInit, OnDestroy {
                 route: '/settings/node-credentials',
                 authorized: {
                   anyOf: ['/secrets/search', 'post']
-                }
-              },
-              {
-                name: 'Node Lifecycle',
-                icon: 'storage',
-                route: '/settings/node-lifecycle',
-                authorized: {
-                  anyOf: ['/retention/nodes/status', 'get']
                 }
               }
             ]
