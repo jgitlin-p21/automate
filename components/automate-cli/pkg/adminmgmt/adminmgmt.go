@@ -15,8 +15,8 @@ import (
 	users_req "github.com/chef/automate/components/automate-gateway/api/auth/users/request"
 	"github.com/chef/automate/components/automate-gateway/api/authz"
 	authz_req "github.com/chef/automate/components/automate-gateway/api/authz/request"
-	v2 "github.com/chef/automate/components/automate-gateway/api/iam/v2"
-	authz_v2_req "github.com/chef/automate/components/automate-gateway/api/iam/v2/request"
+	teams "github.com/chef/automate/components/automate-gateway/api/iam/v2"
+	iam_req "github.com/chef/automate/components/automate-gateway/api/iam/v2/request"
 	"github.com/chef/automate/lib/stringutils"
 )
 
@@ -101,7 +101,7 @@ func AddAdminUserToTeam(ctx context.Context,
 func AddUserToTeam(ctx context.Context,
 	apiClient client.APIClient, teamID, userID string, dryRun bool) (bool, error) {
 
-	getUsersResp, err := apiClient.TeamsClient().GetTeamMembership(ctx, &authz_v2_req.GetTeamMembershipReq{
+	getUsersResp, err := apiClient.TeamsClient().GetTeamMembership(ctx, &iam_req.GetTeamMembershipReq{
 		Id: teamID,
 	})
 	if err != nil {
@@ -110,7 +110,7 @@ func AddUserToTeam(ctx context.Context,
 
 	addUser := !stringutils.SliceContains(getUsersResp.UserIds, userID)
 	if addUser && !dryRun {
-		_, err := apiClient.TeamsClient().AddTeamMembers(ctx, &authz_v2_req.AddTeamMembersReq{
+		_, err := apiClient.TeamsClient().AddTeamMembers(ctx, &iam_req.AddTeamMembersReq{
 			Id:      teamID,
 			UserIds: []string{userID},
 		})
@@ -169,7 +169,7 @@ func UpdateV1AdminsPolicyIfNeeded(ctx context.Context,
 // and adds the admins team if it's missing from that list
 func UpdateV2AdminsPolicyIfNeeded(ctx context.Context,
 	apiClient client.APIClient, dryRun bool) (bool, error) {
-	resp, err := apiClient.PoliciesClient().ListPolicyMembers(ctx, &authz_v2_req.ListPolicyMembersReq{
+	resp, err := apiClient.PoliciesClient().ListPolicyMembers(ctx, &iam_req.ListPolicyMembersReq{
 		Id: authz_constants_v2.AdminPolicyID,
 	})
 	if err != nil {
@@ -178,7 +178,7 @@ func UpdateV2AdminsPolicyIfNeeded(ctx context.Context,
 	found := stringutils.SliceContains(resp.Members, authz_constants.LocalAdminsTeamSubject)
 
 	if !dryRun && !found {
-		_, err = apiClient.PoliciesClient().AddPolicyMembers(ctx, &authz_v2_req.AddPolicyMembersReq{
+		_, err = apiClient.PoliciesClient().AddPolicyMembers(ctx, &iam_req.AddPolicyMembersReq{
 			Id:      authz_constants_v2.AdminPolicyID,
 			Members: []string{authz_constants.LocalAdminsTeamSubject},
 		})
@@ -204,7 +204,7 @@ func EnsureTeam(ctx context.Context,
 	}
 
 	if !found && !dryRun {
-		createTeamsResp, err := apiClient.TeamsClient().CreateTeam(ctx, &authz_v2_req.CreateTeamReq{
+		createTeamsResp, err := apiClient.TeamsClient().CreateTeam(ctx, &iam_req.CreateTeamReq{
 			Id:       id,
 			Name:     name,
 			Projects: []string{},
@@ -223,11 +223,11 @@ func wrapUnexpectedError(err error, wrap string, args ...interface{}) error {
 	return status.Wrapf(err, status.APIError, wrap, args...)
 }
 
-func getTeamIDByName(ctx context.Context, tc v2.TeamsClient, name string) (string, bool, error) {
+func getTeamIDByName(ctx context.Context, tc teams.TeamsClient, name string) (string, bool, error) {
 	var id string
 	var found bool
 
-	listTeamsResp, err := tc.ListTeams(ctx, &authz_v2_req.ListTeamsReq{})
+	listTeamsResp, err := tc.ListTeams(ctx, &iam_req.ListTeamsReq{})
 	if err != nil {
 		return "", false, wrapUnexpectedError(err, "Failed to retrieve admins team")
 	}

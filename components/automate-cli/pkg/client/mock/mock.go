@@ -11,7 +11,7 @@ import (
 	"github.com/chef/automate/components/automate-gateway/api/auth/users"
 	"github.com/chef/automate/components/automate-gateway/api/authz"
 	"github.com/chef/automate/components/automate-gateway/api/compliance/reporting"
-	v2 "github.com/chef/automate/components/automate-gateway/api/iam/v2"
+	iam "github.com/chef/automate/components/automate-gateway/api/iam/v2"
 	"github.com/chef/automate/lib/grpc/grpctest"
 	"github.com/chef/automate/lib/grpc/secureconn"
 	"github.com/chef/automate/lib/tls/test/helpers"
@@ -20,11 +20,11 @@ import (
 // Mock is a mocked out APIClient.
 type Mock struct {
 	authzClient        authz.AuthorizationClient
-	teamsV2Client      v2.TeamsClient
+	teamsV2Client      iam.TeamsClient
 	tokensClient       tokens.TokensMgmtClient
-	tokensV2Client     v2.TokensClient
+	tokensV2Client     iam.TokensClient
 	usersClient        users.UsersMgmtClient
-	policiesClient     v2.PoliciesClient
+	policiesClient     iam.PoliciesClient
 	reportingClient    reporting.ReportingServiceClient
 	applicationsClient applications.ApplicationsServiceClient
 	close              func()
@@ -33,10 +33,10 @@ type Mock struct {
 // ServerMocks are mocked out API servers
 type ServerMocks struct {
 	AuthzMock    *authz.AuthorizationServerMock
-	PoliciesMock *v2.PoliciesServerMock
-	TeamsMock    *v2.TeamsServerMock
+	PoliciesMock *iam.PoliciesServerMock
+	TeamsMock    *iam.TeamsServerMock
 	TokensMock   *tokens.TokensMgmtServerMock
-	TokensV2Mock *v2.TokensServerMock
+	TokensV2Mock *iam.TokensServerMock
 	UsersMock    *users.UsersMgmtServerMock
 }
 
@@ -51,14 +51,14 @@ func CreateMockConn(t *testing.T) (client.APIClient, ServerMocks, error) {
 	mockAuthz := authz.NewAuthorizationServerMock()
 	authz.RegisterAuthorizationServer(grpcGateway, mockAuthz)
 
-	mockV2Tokens := v2.NewTokensServerMock()
-	v2.RegisterTokensServer(grpcGateway, mockV2Tokens)
+	mockV2Tokens := iam.NewTokensServerMock()
+	iam.RegisterTokensServer(grpcGateway, mockV2Tokens)
 
-	mockPolicies := v2.NewPoliciesServerMock()
-	v2.RegisterPoliciesServer(grpcGateway, mockPolicies)
+	mockPolicies := iam.NewPoliciesServerMock()
+	iam.RegisterPoliciesServer(grpcGateway, mockPolicies)
 
-	mockV2Teams := v2.NewTeamsServerMock()
-	v2.RegisterTeamsServer(grpcGateway, mockV2Teams)
+	mockTeams := iam.NewTeamsServerMock()
+	iam.RegisterTeamsServer(grpcGateway, mockTeams)
 
 	mockTokens := tokens.NewTokensMgmtServerMock()
 	tokens.RegisterTokensMgmtServer(grpcGateway, mockTokens)
@@ -72,11 +72,11 @@ func CreateMockConn(t *testing.T) (client.APIClient, ServerMocks, error) {
 
 	return Mock{
 			authzClient:        authz.NewAuthorizationClient(gatewayConn),
-			teamsV2Client:      v2.NewTeamsClient(gatewayConn),
+			teamsV2Client:      iam.NewTeamsClient(gatewayConn),
 			tokensClient:       tokens.NewTokensMgmtClient(gatewayConn),
-			tokensV2Client:     v2.NewTokensClient(gatewayConn),
+			tokensV2Client:     iam.NewTokensClient(gatewayConn),
 			usersClient:        users.NewUsersMgmtClient(gatewayConn),
-			policiesClient:     v2.NewPoliciesClient(gatewayConn),
+			policiesClient:     iam.NewPoliciesClient(gatewayConn),
 			reportingClient:    reporting.NewReportingServiceClient(gatewayConn),
 			applicationsClient: applications.NewApplicationsServiceClient(gatewayConn),
 			close:              grpcServer.Close,
@@ -98,7 +98,7 @@ func (c Mock) AuthzClient() authz.AuthorizationClient {
 }
 
 // TeamsClient returns mock TeamsClient
-func (c Mock) TeamsClient() v2.TeamsClient {
+func (c Mock) TeamsClient() iam.TeamsClient {
 	return c.teamsV2Client
 }
 
@@ -108,7 +108,7 @@ func (c Mock) TokensClient() tokens.TokensMgmtClient {
 }
 
 // TokensV2Client returns mock TokensV2Client
-func (c Mock) TokensV2Client() v2.TokensClient {
+func (c Mock) TokensV2Client() iam.TokensClient {
 	return c.tokensV2Client
 }
 
@@ -118,7 +118,7 @@ func (c Mock) UsersClient() users.UsersMgmtClient {
 }
 
 // PoliciesClient returns mock PoliciesClient
-func (c Mock) PoliciesClient() v2.PoliciesClient {
+func (c Mock) PoliciesClient() iam.PoliciesClient {
 	return c.policiesClient
 }
 
