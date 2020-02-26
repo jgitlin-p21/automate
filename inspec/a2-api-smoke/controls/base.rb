@@ -6,12 +6,11 @@ title 'Automate 2.0 Smoke Tests'
 # Perform some basic requests against the backend services
 {
   'authn-service': {
-    path: '/api/v0/auth/tokens',
-    response_match: {
-    },
+    path: '/apis/iam/v2/tokens',
+    response_match: {},
   },
   'authz-service': {
-    path: '/api/v0/auth/policies/version',
+    path: '/apis/iam/v2/policy_version',
     response_match: {
       name: 'authz-service'
     },
@@ -40,7 +39,7 @@ title 'Automate 2.0 Smoke Tests'
 #    response_match: {},
 #  },
   'local-user-service': {
-    path: '/api/v0/auth/users',
+    path: '/apis/iam/v2/users',
     response_match: {},
   },
   'notifications-service': {
@@ -50,10 +49,8 @@ title 'Automate 2.0 Smoke Tests'
     },
   },
   'teams-service': {
-    path: '/api/v0/auth/teams/version',
-    response_match: {
-      name: 'teams-service'
-    },
+    path: '/apis/iam/v2/teams',
+    response_match: {},
   },
   'automate-gateway': {
     path: '/api/v0/gateway/version',
