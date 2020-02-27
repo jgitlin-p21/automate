@@ -1016,7 +1016,6 @@ type NodesServiceClient interface {
 	//```
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:create
 	//```
@@ -1027,7 +1026,6 @@ type NodesServiceClient interface {
 	//Returns the details for a node given the node ID.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:get
 	//```
@@ -1040,7 +1038,6 @@ type NodesServiceClient interface {
 	//Substitute the desired values for the existing node details in the PUT message.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:update
 	//```
@@ -1051,7 +1048,6 @@ type NodesServiceClient interface {
 	//Deletes the node with the node ID.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:delete
 	//```
@@ -1063,7 +1059,6 @@ type NodesServiceClient interface {
 	//Invalid IDs will be ignored.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:delete
 	//```
@@ -1094,7 +1089,6 @@ type NodesServiceClient interface {
 	//```
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:list
 	//```
@@ -1106,7 +1100,6 @@ type NodesServiceClient interface {
 	//that the node is reachable or unreachable.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:rerun
 	//```
@@ -1126,7 +1119,6 @@ type NodesServiceClient interface {
 	//```
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:delete
 	//```
@@ -1155,7 +1147,6 @@ type NodesServiceClient interface {
 	//```
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:create
 	//```
@@ -1278,7 +1269,6 @@ type NodesServiceServer interface {
 	//```
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:create
 	//```
@@ -1289,7 +1279,6 @@ type NodesServiceServer interface {
 	//Returns the details for a node given the node ID.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:get
 	//```
@@ -1302,7 +1291,6 @@ type NodesServiceServer interface {
 	//Substitute the desired values for the existing node details in the PUT message.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:update
 	//```
@@ -1313,7 +1301,6 @@ type NodesServiceServer interface {
 	//Deletes the node with the node ID.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:delete
 	//```
@@ -1325,7 +1312,6 @@ type NodesServiceServer interface {
 	//Invalid IDs will be ignored.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:delete
 	//```
@@ -1356,7 +1342,6 @@ type NodesServiceServer interface {
 	//```
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:list
 	//```
@@ -1368,7 +1353,6 @@ type NodesServiceServer interface {
 	//that the node is reachable or unreachable.
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:rerun
 	//```
@@ -1388,7 +1372,6 @@ type NodesServiceServer interface {
 	//```
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:delete
 	//```
@@ -1417,7 +1400,6 @@ type NodesServiceServer interface {
 	//```
 	//
 	//Authorization Action:
-	//
 	//```
 	//infra:nodes:create
 	//```
