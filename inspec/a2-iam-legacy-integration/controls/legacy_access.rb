@@ -35,7 +35,7 @@ control 'iam-legacy-access-control-1' do
         '/apis/iam/v2/tokens',
         http_method: 'POST',
         request_body: {
-          'id': "inspec_test_token-#{Time.now.to_i}",
+          'id': "inspec_test_token-#{TIMESTAMP}",
           'name': 'inspec_test_token'
         }.to_json
       )
@@ -203,7 +203,7 @@ control 'iam-legacy-access-control-1' do
         let(:failure_test_id) { 'does-not-exist' }
         let(:test_object) do
           {
-            'id': "inspec_test_team-#{Time.now.to_i}",
+            'id': "inspec_test_team-#{TIMESTAMP}",
             'name': 'This team was created by inspec tests. DELETE ME.',
             'projects': []
           }
@@ -214,7 +214,7 @@ control 'iam-legacy-access-control-1' do
         it "POST /apis/iam/v2/teams/{id}/users:add returns the correct response code" do
           expect(
             automate_api_request(
-              "/apis/iam/v2/teams/inspec_test_team-#{Time.now.to_i}/users:add",
+              "/apis/iam/v2/teams/inspec_test_team-#{TIMESTAMP}/users:add",
               http_method: 'POST',
               user: user,
               request_headers: { "Content-type": "application/json" },
@@ -227,7 +227,7 @@ control 'iam-legacy-access-control-1' do
         it "POST /apis/iam/v2/teams/{id}/users:remove returns the correct response code" do
           expect(
             automate_api_request(
-              "/apis/iam/v2/teams/inspec_test_team-#{Time.now.to_i}/users:remove",
+              "/apis/iam/v2/teams/inspec_test_team-#{TIMESTAMP}/users:remove",
               http_method: 'POST',
               user: user,
               request_headers: { "Content-type": "application/json" },
@@ -244,7 +244,7 @@ control 'iam-legacy-access-control-1' do
         let(:id_keys) { ["user", "id"] }
         let(:http_verbs) { ["GET_ALL", "POST", "GET", "PUT", "DELETE"] }
         let(:failure_test_id) { 'doesnotexist@example.com' }
-        let(:test_id) { "inspec_test_user-#{Time.now.to_i}" }
+        let(:test_id) { "inspec_test_user-#{TIMESTAMP}" }
         let(:test_object) do
           {
             'name': test_id,
@@ -264,7 +264,7 @@ control 'iam-legacy-access-control-1' do
         let(:failure_test_id) { 'does-not-exist' }
         let(:test_object) do
           {
-            'id': "inspec_test_token_2-#{Time.now.to_i}",
+            'id': "inspec_test_token_2-#{TIMESTAMP}",
             'name': 'This token was created by inspec tests. DELETE ME.',
             'projects': []
           }
@@ -281,7 +281,7 @@ control 'iam-legacy-access-control-1' do
         let(:failure_test_id) { 'does-not-exist' }
         let(:test_object) do
           {
-            'id': "inspec_test_policy-#{Time.now.to_i}",
+            'id': "inspec_test_policy-#{TIMESTAMP}",
             'name': 'This policy was created by inspec tests. DELETE ME.',
             "members": ["user:local:inspec", "team:local:inspec"],
             "statements": [
@@ -306,7 +306,7 @@ control 'iam-legacy-access-control-1' do
         let(:failure_test_id) { 'does-not-exist' }
         let(:test_object) do
           {
-            'id': "inspec_test_role-#{Time.now.to_i}",
+            'id': "inspec_test_role-#{TIMESTAMP}",
             'name': 'This role was created by inspec tests. DELETE ME.',
             'actions': ['do:a:thing'],
             'projects': []
@@ -324,7 +324,7 @@ control 'iam-legacy-access-control-1' do
         let(:failure_test_id) { 'does-not-exist' }
         let(:test_object) do
           {
-            'id': "inspec_test_project-#{Time.now.to_i}",
+            'id': "inspec_test_project-#{TIMESTAMP}",
             'name': 'This project was created by inspec tests. DELETE ME.'
           }
         end
@@ -735,7 +735,7 @@ control 'iam-legacy-access-control-1' do
               TEST_TOKEN,
               http_method: 'POST'
             ).http_status
-          ).to eq(200)
+          ).not_to eq(403)
         end
       end
 
