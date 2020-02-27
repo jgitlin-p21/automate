@@ -8,10 +8,12 @@ import "google/api/annotations.proto";
 import "api/external/infra_proxy/request/orgs.proto";
 import "api/external/infra_proxy/request/servers.proto";
 import "api/external/infra_proxy/request/cookbooks.proto";
+import "api/external/infra_proxy/request/clients.proto";
 
 import "api/external/infra_proxy/response/orgs.proto";
 import "api/external/infra_proxy/response/servers.proto";
 import "api/external/infra_proxy/response/cookbooks.proto";
+import "api/external/infra_proxy/response/clients.proto";
 
 import "api/external/common/version/version.proto";
 
@@ -141,5 +143,20 @@ service InfraProxy {
     option (chef.automate.api.policy).action = "read";
     option (chef.automate.api.iam.policy).resource = "infra:servers:{server_id}:orgs:{org_id}:cookbooks";
     option (chef.automate.api.iam.policy).action = "infra:serverOrgCookbooks:get";
+  };
+
+  rpc GetClients (infra_proxy.request.Clients) returns (infra_proxy.response.Clients) {
+    option (google.api.http).get = "/infra/servers/{server_id}/orgs/{org_id}/clients";
+    option (chef.automate.api.policy).resource = "infra:servers:{server_id}:orgs:{org_id}/clients";
+    option (chef.automate.api.policy).action = "read";
+    option (chef.automate.api.iam.policy).resource = "infra:servers:{server_id}:orgs:{org_id}:clients";
+    option (chef.automate.api.iam.policy).action = "infra:serverOrgClients:list";
+  };
+  rpc GetClient (infra_proxy.request.Client) returns (infra_proxy.response.Client) {
+    option (google.api.http).get = "/infra/servers/{server_id}/orgs/{org_id}/clients/{name}";
+    option (chef.automate.api.policy).resource = "infra:servers:{server_id}:orgs:{org_id}/clients";
+    option (chef.automate.api.policy).action = "read";
+    option (chef.automate.api.iam.policy).resource = "infra:servers:{server_id}:orgs:{org_id}:clients";
+    option (chef.automate.api.iam.policy).action = "infra:serverOrgClients:get";
   };
 }
